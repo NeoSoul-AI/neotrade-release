@@ -1,6 +1,6 @@
 # neotrade-release
 
-Download artifacts for [NeoTrade](https://neosoul.ai/) — a self-custodial
+Download artifacts for [NeoTrade](https://neotrade.pro/) — a self-custodial
 trading agent runtime. The platform never holds your keys or your funds;
 everything security-relevant runs on your own machine.
 
