@@ -13,56 +13,66 @@ This repository holds published artifacts only. Source lives elsewhere.
 
 ## Download
 
-### → [Latest release](../../releases/latest)
+Every link below is permanent and always serves the newest stable release.
+Bookmark them, paste them into a message, write them into a doc — nothing here
+names a version, so nothing here needs editing when one ships.
 
-That link is permanent and always resolves to the current stable version. This
-page deliberately names no version anywhere, so there is nothing here to go
-stale between releases.
+They are assets of [`desktop-stable-latest`](../../releases/tag/desktop-stable-latest),
+one release that CI republishes with the current bundles under these fixed
+names every time a stable version goes out.
 
-Open it and pick the file for your platform. The bundles carry the version in
-their filename, so what is listed below is the SUFFIX to look for rather than a
-link — a per-file URL would have to be rewritten on every release, which is
-exactly how the previous version of this page ended up advertising an older
-build.
+**1. macOS (Apple silicon — M1/M2/M3/M4)**
 
-**1. macOS (Apple silicon — M1/M2/M3/M4)** — ends `_aarch64.dmg`
+Download: https://github.com/NeoSoul-AI/neotrade-release/releases/download/desktop-stable-latest/neotrade-macos-aarch64.dmg
 
-**2. macOS (Intel)** — ends `_x64.dmg`
+    curl -LO https://github.com/NeoSoul-AI/neotrade-release/releases/download/desktop-stable-latest/neotrade-macos-aarch64.dmg
 
-**3. Windows (x64, installer — recommended)** — ends `_x64-setup.exe`
+**2. macOS (Intel)**
 
-**4. Windows (x64, msi)** — ends `_x64_en-US.msi`
+Download: https://github.com/NeoSoul-AI/neotrade-release/releases/download/desktop-stable-latest/neotrade-macos-x64.dmg
 
-**5. Linux (Debian/Ubuntu)** — ends `_amd64.deb`
+    curl -LO https://github.com/NeoSoul-AI/neotrade-release/releases/download/desktop-stable-latest/neotrade-macos-x64.dmg
 
-**6. Linux (Fedora/RHEL)** — ends `.x86_64.rpm`
+**3. Windows (x64, setup.exe — recommended)**
 
-**7. Linux (any distro, AppImage — no install)** — ends `_amd64.AppImage`
+Download: https://github.com/NeoSoul-AI/neotrade-release/releases/download/desktop-stable-latest/neotrade-windows-x64-setup.exe
 
-The `.sig` files next to them are signatures, and the `.app.tar.gz` pair is the
-updater's own bundle format. A manual install needs neither.
+In PowerShell, `curl` is an alias for `Invoke-WebRequest`; call `curl.exe`:
 
-### From the command line
+    curl.exe -LO https://github.com/NeoSoul-AI/neotrade-release/releases/download/desktop-stable-latest/neotrade-windows-x64-setup.exe
 
-One recipe rather than seven URLs, for the same reason: it resolves the newest
-release itself, so it keeps working after every release. Set `SUFFIX` from the
-list above.
+**4. Windows (x64, msi)**
 
-```bash
-SUFFIX=_aarch64.dmg
-curl -fsSL https://api.github.com/repos/NeoSoul-AI/neotrade-release/releases/latest \
-  | grep -o "https://[^\"]*$SUFFIX\"" | tr -d '"' | head -1 | xargs curl -fLO
-```
+Download: https://github.com/NeoSoul-AI/neotrade-release/releases/download/desktop-stable-latest/neotrade-windows-x64.msi
 
-PowerShell — note `curl.exe`, because PowerShell aliases bare `curl` to
-`Invoke-WebRequest`, which does not take `-LO`:
+    curl.exe -LO https://github.com/NeoSoul-AI/neotrade-release/releases/download/desktop-stable-latest/neotrade-windows-x64.msi
 
-```powershell
-$suffix = '_x64-setup.exe'
-$url = (Invoke-RestMethod https://api.github.com/repos/NeoSoul-AI/neotrade-release/releases/latest).assets |
-  Where-Object { $_.name -like "*$suffix" } | Select-Object -First 1 -ExpandProperty browser_download_url
-curl.exe -LO $url
-```
+**5. Linux (Debian/Ubuntu, .deb)**
+
+Download: https://github.com/NeoSoul-AI/neotrade-release/releases/download/desktop-stable-latest/neotrade-linux-amd64.deb
+
+    curl -LO https://github.com/NeoSoul-AI/neotrade-release/releases/download/desktop-stable-latest/neotrade-linux-amd64.deb
+    sudo apt install ./neotrade-linux-amd64.deb
+
+**6. Linux (Fedora/RHEL, .rpm)**
+
+Download: https://github.com/NeoSoul-AI/neotrade-release/releases/download/desktop-stable-latest/neotrade-linux-x86_64.rpm
+
+    curl -LO https://github.com/NeoSoul-AI/neotrade-release/releases/download/desktop-stable-latest/neotrade-linux-x86_64.rpm
+    sudo dnf install ./neotrade-linux-x86_64.rpm
+
+**7. Linux (any distro, AppImage — no install)**
+
+Download: https://github.com/NeoSoul-AI/neotrade-release/releases/download/desktop-stable-latest/neotrade-linux-x86_64.AppImage
+
+    curl -LO https://github.com/NeoSoul-AI/neotrade-release/releases/download/desktop-stable-latest/neotrade-linux-x86_64.AppImage
+    chmod +x neotrade-linux-x86_64.AppImage
+    ./neotrade-linux-x86_64.AppImage
+
+Want a specific version instead of the newest one? The
+[latest release](../../releases/latest) page — and every entry under
+[Releases](../../releases) — carries the same bundles under filenames that do
+name their version, alongside that version's notes.
 
 ## Installing
 
@@ -85,29 +95,23 @@ installer carries no Authenticode signature: **More info** → **Run anyway**.
 
 ### Linux
 
-From the directory you downloaded into — the globs avoid naming a version:
-
-    sudo apt install ./NeoTrade_*_amd64.deb      # Debian/Ubuntu
-    sudo dnf install ./NeoTrade-*.x86_64.rpm     # Fedora/RHEL
-
-The AppImage installs nothing — mark it executable and run it:
-
-    chmod +x NeoTrade_*_amd64.AppImage
-    ./NeoTrade_*_amd64.AppImage
+The `apt` / `dnf` / `chmod` lines are in each download block above.
 
 ### Verifying a download
 
-Every asset ships a matching `.sig`, and each release carries one `SHA256SUMS`
-covering all of them. `SHA256SUMS` is one of the few assets whose own name has
-no version in it, so this link is permanent too:
+Every bundle ships a matching `.sig`, and the page carries one `SHA256SUMS`
+covering all of them. Take it from the same place you took the bundle — its
+lines name these fixed filenames, so a `SHA256SUMS` from a versioned release
+would match none of them:
 
-    curl -LO https://github.com/NeoSoul-AI/neotrade-release/releases/latest/download/SHA256SUMS
+    curl -LO https://github.com/NeoSoul-AI/neotrade-release/releases/download/desktop-stable-latest/SHA256SUMS
     shasum -a 256 -c SHA256SUMS --ignore-missing   # sha256sum on Linux
 
 ## Updates
 
 Nothing to download by hand after the first install — the app offers every
-later release on its channel in place.
+later release on its channel in place. The links above are for a FIRST install;
+the updater never uses them.
 
 Updates are driven by `latest.json`, which installed apps poll. A release is
 only reached once a **channel** points at it:
@@ -116,7 +120,13 @@ only reached once a **channel** points at it:
 - **beta** (`desktop-channel-beta`) — internal test installs only.
 
 Beta releases are tagged `-beta.N` and marked pre-release. They are internal
-test builds; unless you were asked to run one, take the stable release above.
+test builds with their own app identity (`NeoTrade-Beta`), installable
+alongside the stable app; unless you were asked to run one, take the downloads
+above. They have their own permanent page,
+[`desktop-beta-latest`](../../releases/tag/desktop-beta-latest).
+
+The `.app.tar.gz` assets on the versioned releases are the updater's own bundle
+format. A manual install never needs them.
 
 ## Releases
 
