@@ -1,72 +1,116 @@
-# neoclaw-release
+# neotrade-release
 
-Download artifacts for [neoclaw](https://neosoul.ai/) — a self-custodial
-trading agent runtime for prediction markets.
+Download artifacts for [NeoTrade](https://neosoul.ai/) — a self-custodial
+trading agent runtime. The platform never holds your keys or your funds;
+everything security-relevant runs on your own machine.
 
 This repository holds published artifacts only. Source lives elsewhere.
 
-> **Development preview.** Everything published so far is a `-dev.N`
-> pre-release built from a branch snapshot, not a stable version. The desktop
-> app is **not notarized (macOS) and not code-signed (Windows)** — both systems
-> will warn that it comes from an unidentified developer. Do not use with real
-> funds.
+> **Not notarized by Apple, not Authenticode-signed on Windows.** Every bundle
+> carries an ed25519 signature verified in CI, but that is artifact integrity,
+> not OS trust — so both systems warn on a first install. The two steps that
+> get past them are under [Installing](#installing).
 
-## Install the desktop app
+## Download
 
-Latest: [`v0.1.0-dev.1`](../../releases/tag/v0.1.0-dev.1) — see the release
-notes there for per-file checksums and the full install steps.
+Current stable release: **[`desktop-v0.1.1`](../../releases/latest)**. The
+links below name that version; the [latest release](../../releases/latest)
+page always carries current ones.
 
-| Platform | Download |
-| --- | --- |
-| macOS (Apple Silicon) | [`neoclaw_0.1.0_aarch64.dmg`](../../releases/download/v0.1.0-dev.1/neoclaw_0.1.0_aarch64.dmg) |
-| macOS (Intel) | [`neoclaw_0.1.0_x64.dmg`](../../releases/download/v0.1.0-dev.1/neoclaw_0.1.0_x64.dmg) |
-| Windows x64 | [`neoclaw_0.1.0_x64-setup.exe`](../../releases/download/v0.1.0-dev.1/neoclaw_0.1.0_x64-setup.exe) · [`.msi`](../../releases/download/v0.1.0-dev.1/neoclaw_0.1.0_x64_en-US.msi) |
-| Linux x86_64 | [`.deb`](../../releases/download/v0.1.0-dev.1/neoclaw_0.1.0_amd64.deb) · [`.rpm`](../../releases/download/v0.1.0-dev.1/neoclaw-0.1.0-1.x86_64.rpm) · [`.AppImage`](../../releases/download/v0.1.0-dev.1/neoclaw_0.1.0_amd64.AppImage) |
+**1. macOS (Apple silicon — M1/M2/M3/M4)**
 
-### macOS
+Download: [`NeoTrade_0.1.1_aarch64.dmg`](../../releases/download/desktop-v0.1.1/NeoTrade_0.1.1_aarch64.dmg)
 
-    curl -fLO https://github.com/NeoSoul-AI/neoclaw-release/releases/download/v0.1.0-dev.1/neoclaw_0.1.0_aarch64.dmg
-    shasum -a 256 neoclaw_0.1.0_aarch64.dmg
-    # 29e7a7ad666039e8c6165183d4f5bdb9631ec12fa989c0cd0ec7fc3c3c3e1c0e
-    open neoclaw_0.1.0_aarch64.dmg      # drag neoclaw.app into Applications
-    xattr -dr com.apple.quarantine /Applications/neoclaw.app
+    curl -LO https://github.com/NeoSoul-AI/neotrade-release/releases/download/desktop-v0.1.1/NeoTrade_0.1.1_aarch64.dmg
 
-Without the `xattr` step macOS reports *"neoclaw is damaged and can't be
-opened"*. The app is not damaged — that is Gatekeeper's message for an
-un-notarized bundle.
+**2. macOS (Intel)**
 
-### Windows
+Download: [`NeoTrade_0.1.1_x64.dmg`](../../releases/download/desktop-v0.1.1/NeoTrade_0.1.1_x64.dmg)
+
+    curl -LO https://github.com/NeoSoul-AI/neotrade-release/releases/download/desktop-v0.1.1/NeoTrade_0.1.1_x64.dmg
+
+**3. Windows (x64, setup.exe)**
+
+Download: [`NeoTrade_0.1.1_x64-setup.exe`](../../releases/download/desktop-v0.1.1/NeoTrade_0.1.1_x64-setup.exe)
 
 In PowerShell, `curl` is an alias for `Invoke-WebRequest`; call `curl.exe`:
 
-    curl.exe -fLO https://github.com/NeoSoul-AI/neoclaw-release/releases/download/v0.1.0-dev.1/neoclaw_0.1.0_x64-setup.exe
-    Get-FileHash .\neoclaw_0.1.0_x64-setup.exe -Algorithm SHA256
-    # 2FEEAF92545BA6DD8FD5794B575763792BDC4373C2D6D65FA5BD63F970395088
+    curl.exe -LO https://github.com/NeoSoul-AI/neotrade-release/releases/download/desktop-v0.1.1/NeoTrade_0.1.1_x64-setup.exe
 
-SmartScreen blocks the unsigned installer: **More info** → **Run anyway**.
+**4. Windows (x64, msi)**
 
-### Linux
+Download: [`NeoTrade_0.1.1_x64_en-US.msi`](../../releases/download/desktop-v0.1.1/NeoTrade_0.1.1_x64_en-US.msi)
 
-    curl -fLO https://github.com/NeoSoul-AI/neoclaw-release/releases/download/v0.1.0-dev.1/neoclaw_0.1.0_amd64.deb
-    sha256sum neoclaw_0.1.0_amd64.deb
-    # e20d8a742ad97b0db2ac838641ed6fc3f37c26c862ae7979c9ca5a7af2e442c8
-    sudo dpkg -i neoclaw_0.1.0_amd64.deb && sudo apt-get -f install
+    curl.exe -LO https://github.com/NeoSoul-AI/neotrade-release/releases/download/desktop-v0.1.1/NeoTrade_0.1.1_x64_en-US.msi
 
-## Install the CLI
+**5. Linux (Debian/Ubuntu, .deb)**
 
-Requires Node >= 24.
+Download: [`NeoTrade_0.1.1_amd64.deb`](../../releases/download/desktop-v0.1.1/NeoTrade_0.1.1_amd64.deb)
 
-    curl -fLO https://github.com/NeoSoul-AI/neoclaw-release/releases/download/v0.1.0-dev.1/neoclaw-0.1.0.tgz
-    npm i -g ./neoclaw-0.1.0.tgz
-    neoclaw status
+    curl -LO https://github.com/NeoSoul-AI/neotrade-release/releases/download/desktop-v0.1.1/NeoTrade_0.1.1_amd64.deb
+    sudo apt install ./NeoTrade_0.1.1_amd64.deb
 
-Verify the download before installing:
+**6. Linux (Fedora/RHEL, .rpm)**
 
-    shasum -a 256 neoclaw-0.1.0.tgz
-    # a73b06c34a630794fcba10b3b3c8c1e7663887c2b00b3d25129f6597de8a7e6a
+Download: [`NeoTrade-0.1.1-1.x86_64.rpm`](../../releases/download/desktop-v0.1.1/NeoTrade-0.1.1-1.x86_64.rpm)
+
+    curl -LO https://github.com/NeoSoul-AI/neotrade-release/releases/download/desktop-v0.1.1/NeoTrade-0.1.1-1.x86_64.rpm
+    sudo dnf install ./NeoTrade-0.1.1-1.x86_64.rpm
+
+**7. Linux (any distro, AppImage — no install)**
+
+Download: [`NeoTrade_0.1.1_amd64.AppImage`](../../releases/download/desktop-v0.1.1/NeoTrade_0.1.1_amd64.AppImage)
+
+    curl -LO https://github.com/NeoSoul-AI/neotrade-release/releases/download/desktop-v0.1.1/NeoTrade_0.1.1_amd64.AppImage
+    chmod +x NeoTrade_0.1.1_amd64.AppImage
+    ./NeoTrade_0.1.1_amd64.AppImage
+
+## Installing
+
+### macOS
+
+Open the dmg, drag **NeoTrade** into Applications, then run this once:
+
+    xattr -dr com.apple.quarantine /Applications/NeoTrade.app
+
+Without it macOS refuses the app outright — a downloaded ad-hoc-signed bundle
+is blocked at exec on macOS 15 and later. There is no way to do this from the
+UI: right-click → Open does not bypass it, and System Settings → Privacy &
+Security offers "Open Anyway" only for Developer-ID-signed apps, so the button
+never appears.
+
+### Windows
+
+Run setup.exe. SmartScreen warns about an "unknown publisher" because the
+installer carries no Authenticode signature: **More info** → **Run anyway**.
+
+### Verifying a download
+
+Every asset ships a matching `.sig`, and each release carries one `SHA256SUMS`
+covering all of them:
+
+    curl -LO https://github.com/NeoSoul-AI/neotrade-release/releases/download/desktop-v0.1.1/SHA256SUMS
+    shasum -a 256 -c SHA256SUMS --ignore-missing   # sha256sum on Linux
+
+## Updates
+
+Nothing to download by hand after the first install — the app offers every
+later release on its channel in place.
+
+Updates are driven by `latest.json`, which installed apps poll. A release is
+only reached once a **channel** points at it:
+
+- **stable** (`desktop-channel-stable`) — everyone, by default.
+- **beta** (`desktop-channel-beta`) — internal test installs only.
+
+Beta releases are tagged `-beta.N` and marked pre-release. They are internal
+test builds; unless you were asked to run one, take the stable release above.
+
+The `.app.tar.gz` assets are the updater's own bundle format. A manual install
+never needs them.
 
 ## Releases
 
-See [Releases](../../releases). Pre-release tags (`-dev.N`) are development
-builds, not stable versions. The desktop app and the CLI within one release may
-be built from different source commits — each release's notes state which.
+See [Releases](../../releases). Each release's notes carry its own download
+links and install steps, generated from the artifacts that build actually
+produced.
