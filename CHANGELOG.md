@@ -1,7 +1,6 @@
 # Changelog
 
-Every stable NeoTrade desktop release, newest first. Internal test builds
-(`-beta.*` pre-releases) are not listed here.
+Every stable NeoTrade desktop release, newest first.
 
 Downloads for the current version: [latest release](https://github.com/NeoSoul-AI/neotrade-release/releases/latest).
 
