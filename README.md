@@ -6,10 +6,15 @@ everything security-relevant runs on your own machine.
 
 This repository holds published artifacts only. Source lives elsewhere.
 
-> **Not notarized by Apple, not Authenticode-signed on Windows.** Every bundle
-> carries an ed25519 signature verified in CI, but that is artifact integrity,
-> not OS trust — so both systems warn on a first install. The two steps that
-> get past them are under [Installing](#installing).
+> **macOS bundles are Developer ID signed and Apple-notarized. The Windows
+> installer carries no Authenticode signature.** So macOS opens the app
+> directly, while SmartScreen still warns on a first Windows install — the one
+> click that gets past it is under [Installing](#installing). Every bundle also
+> carries an ed25519 signature verified in CI, which is artifact integrity
+> rather than OS trust.
+
+**[What's new](CHANGELOG.md)** — every stable release's notes on one page,
+newest first.
 
 ## Download
 
@@ -78,15 +83,13 @@ name their version, alongside that version's notes.
 
 ### macOS
 
-Open the dmg, drag **NeoTrade** into Applications, then run this once:
+Open the dmg and drag **NeoTrade** into Applications. That is the whole
+install: the bundle is Developer ID signed and Apple-notarized, so it opens
+directly with no Gatekeeper prompt and no terminal step.
 
-    xattr -dr com.apple.quarantine /Applications/NeoTrade.app
-
-Without it macOS refuses the app outright — a downloaded ad-hoc-signed bundle
-is blocked at exec on macOS 15 and later. There is no way to do this from the
-UI: right-click → Open does not bypass it, and System Settings → Privacy &
-Security offers "Open Anyway" only for Developer-ID-signed apps, so the button
-never appears.
+Releases before 0.1.10 were ad-hoc signed and did need a `xattr -dr
+com.apple.quarantine` on the installed app. They are not being re-signed, so
+take a current version rather than an old one.
 
 ### Windows
 
@@ -134,3 +137,7 @@ See [Releases](../../releases). Each release's notes carry its own download
 links and install steps, generated from the artifacts that build actually
 produced — those links do name a version, on purpose: they address that one
 specific release.
+
+That list is one entry per build, and most entries are internal-test betas. To
+read what changed across versions instead, use [CHANGELOG.md](CHANGELOG.md):
+every stable release's notes on one page, newest first.
